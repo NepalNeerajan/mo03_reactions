@@ -1,0 +1,129 @@
+#include <fstream>
+#include <string>
+#include <iostream>
+
+void dattotxt(){
+
+  Double_t z, n, t12, p0, p1, p2, p3;
+  Int_t m = 10000;
+  Double_t Z[m], N[m], T12[m], P0[m], P1[m], P2[m], P3[m];
+
+  ifstream infile;
+  infile.open("test.dat");
+
+  if(!infile){
+    cout<<"unable to open file"<<endl;
+    exit(1);
+  }
+
+  Int_t i = 0;
+  while(!infile.eof()){
+    infile>>z>>n>>t12>>p0>>p1>>p2>>p3;
+    Z[i] = z;
+    N[i] = n;
+    T12[i] = t12;
+    P0[i] = p0;
+    P1[i] = p1;
+    P2[i] = p2;
+    P3[i] = p3;
+    i++;
+  }
+
+  //load elements symbol
+  Double_t el_Z[113] = {0};
+  std::string el_symbol[113] = {""};
+
+  ifstream ele_file;
+  ele_file.open("elements.txt");
+  if(!ele_file){
+    cout<<"unable to open elements text file"<<endl;
+    exit(1);
+  }
+
+  string str1, str2;
+  Double_t atnum;
+  for(int i=0; i<113; i++){
+    ele_file>>str1>>str2>>atnum;
+    el_symbol[i] = str2;
+    el_Z[i] = atnum;
+  }
+
+  //output
+  ofstream myfile;
+  myfile.open("testfromC.txt");
+
+  for(Int_t j=0; j<16; j++){
+    if(P0[j]>0){
+      Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
+      Int_t at_num_dau = at_num+1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass + 1;
+      myfile<<"single_rate"<<endl;
+      myfile<<"mo03_cmu"<<endl;
+      myfile<<"1"<<endl;
+      myfile<<el_symbol[at_num]<<at_mass<<endl;
+      myfile<<"3"<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<"electron"<<endl;
+      myfile<<"anti-neutriono_e\n"<<endl;
+      //FIND OUT WHAT EXACTLY IS RATE IN INPUT FILE?
+    }
+
+    if(P1[j]>0){
+      Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
+      Int_t at_num_dau = at_num+1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass - 1;
+      myfile<<"single_rate"<<endl;
+      myfile<<"mo03_cmu"<<endl;
+      myfile<<"1"<<endl;
+      myfile<<el_symbol[at_num]<<at_mass<<endl;
+      myfile<<"4"<<endl;
+      myfile<<"n"<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<"electron"<<endl;
+      myfile<<"anti-neutriono_e\n"<<endl;
+    }
+
+    if(P2[j]>0){
+      Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
+      Int_t at_num_dau = at_num+1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass - 2;
+      myfile<<"single_rate"<<endl;
+      myfile<<"mo03_cmu"<<endl;
+      myfile<<"1"<<endl;
+      myfile<<el_symbol[at_num]<<at_mass<<endl;
+      myfile<<"5"<<endl;
+      myfile<<"n"<<endl;
+      myfile<<"n"<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<"electron"<<endl;
+      myfile<<"anti-neutriono_e\n"<<endl;
+    }
+
+
+    if(P3[j]>0){
+      Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
+      Int_t at_num_dau = at_num+1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass - 3;
+      myfile<<"single_rate"<<endl;
+      myfile<<"mo03_cmu"<<endl;
+      myfile<<"1"<<endl;
+      myfile<<el_symbol[at_num]<<at_mass<<endl;
+      myfile<<"6"<<endl;
+      myfile<<"n"<<endl;
+      myfile<<"n"<<endl;
+      myfile<<"n"<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<"electron"<<endl;
+      myfile<<"anti-neutriono_e\n"<<endl;
+    }
+
+
+  }
+
+  Myfile.close();
+
+}
