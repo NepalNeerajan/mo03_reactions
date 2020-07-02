@@ -5,10 +5,8 @@
 //of wn code
 
 
-//TODO: (1)SOME REACTION HAVE ZERO BRANCHING RATIO,THIS
-//CODE DO NOT PRINT REACTIONT TEXT FOR THOSE
-//DO WE NEED TO INCLUDE THEM TOO, 
-//ASSUMING 0 = 0.000000001 OR SO?
+//NOTE: (1)SOME REACTION HAVE ZERO BRANCHING RATIO
+//We included them too, assuming braching ratio 1e-10
 
 //(2) For example Ne33, there are reactions in
 //jina reaclib other than beta decay, in chapter 2 (or 3)
@@ -22,11 +20,7 @@
 void mo03_reactions(){
 
   Double_t z, n, t12, p0, p1, p2, p3;
-  //to read total line in a file, run following command
-  //awk 'END{print NR}' mo03_beta_minus.dat
-  //which prints 5246, I used 5400, doesn't matter if
-  //it is larger
-  Int_t m = 5400;
+  Int_t m = 6000; 
   Double_t Z[m], N[m], T12[m], P0[m], P1[m], P2[m], P3[m];
 
   ifstream infile;
@@ -36,6 +30,7 @@ void mo03_reactions(){
     cout<<"unable to open file"<<endl;
     exit(1);
   }
+  
 
   Int_t i = 0;
   while(!infile.eof()){
@@ -49,7 +44,8 @@ void mo03_reactions(){
     P3[i] = p3;
     i++;
   }
-
+  cout<<i-1<<"is total number of lines"<<endl;
+  Int_t lines = i-1;
   //load elements symbol
   Double_t el_Z[113] = {0};
   std::string el_symbol[113] = {""};
@@ -73,8 +69,8 @@ void mo03_reactions(){
   ofstream myfile;
   myfile.open("mo03_reactions.txt");
 
-  for(Int_t j=0; j<5400; j++){
-    if(P0[j]>0.000001){ //x.xxxx format in dat file
+  for(Int_t j=0; j<lines; j++){
+    if(P0[j]>0.0000){ //x.xxxx format in dat file
       Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
       Int_t at_num_dau = at_num+1;
       Double_t at_mass = Z[j]+N[j];
@@ -94,6 +90,19 @@ void mo03_reactions(){
       Double_t rate = log(2) * P0[j]/T12[j];
       myfile<<rate<<"\n"<<endl;
     }
+    if(P0[j]==0.0000){
+      Int_t at_num = Int_t( Z[j] )- 1;
+      Int_t at_num_dau = at_num + 1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass;
+      Double_t rate = log(2)*0.0000000001/T12[j];
+      myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n3\n";
+      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutriono_e\n"<<rate<<"\n\n";
+
+      //      cout<<Z[j]<<"\t is at number "<<j<<endl;
+    }
+    
+
 
     if(P1[j]>0.000001){
       Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
@@ -112,6 +121,16 @@ void mo03_reactions(){
       Double_t rate = log(2) * P1[j]/T12[j];
       myfile<<rate<<"\n"<<endl;
     }
+    if(P1[j]==0.0000){
+      Int_t at_num = Int_t( Z[j] )- 1;
+      Int_t at_num_dau = at_num + 1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass-1;
+      Double_t rate = log(2)*0.0000000001/T12[j];
+      myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n4 \nn \n";
+      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutriono_e\n"<<rate<<"\n\n";
+    }
+
 
     if(P2[j]>0.000001){
       Int_t at_num = Int_t ( Z[j] ) -1 ; //at number starts from 0 
@@ -131,6 +150,15 @@ void mo03_reactions(){
       Double_t rate = log(2) * P2[j]/T12[j];
       myfile<<rate<<"\n"<<endl;
    }
+    if(P2[j]==0.0000){
+      Int_t at_num = Int_t( Z[j] )- 1;
+      Int_t at_num_dau = at_num + 1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass-2;
+      Double_t rate = log(2)*0.0000000001/T12[j];
+      myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n5 \nn \nn \n";
+      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutriono_e\n"<<rate<<"\n\n";
+    }
 
 
     if(P3[j]>0.000001){
@@ -152,7 +180,15 @@ void mo03_reactions(){
       Double_t rate = log(2) * P3[j]/T12[j];
       myfile<<rate<<"\n"<<endl;
     }
-
+    if(P3[j]==0.0000){
+      Int_t at_num = Int_t( Z[j] )- 1;
+      Int_t at_num_dau = at_num + 1;
+      Double_t at_mass = Z[j]+N[j];
+      Double_t at_mass_dau = at_mass-3;
+      Double_t rate = log(2)*0.0000000001/T12[j];
+      myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n6 \nn \nn \nn\n";
+      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutriono_e\n"<<rate<<"\n\n";
+    }
 
   }
 
