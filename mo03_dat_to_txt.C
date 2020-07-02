@@ -80,7 +80,7 @@ void mo03_reactions(){
       myfile<<"1"<<endl;
       myfile<<el_symbol[at_num]<<at_mass<<endl;
       myfile<<"3"<<endl;
-      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<endl;
       myfile<<"electron"<<endl;
       myfile<<"anti-neutrino_e"<<endl;
       //FIND OUT WHAT EXACTLY IS RATE IN INPUT FILE?
@@ -97,7 +97,7 @@ void mo03_reactions(){
       Double_t at_mass_dau = at_mass;
       Double_t rate = log(2)*0.0000000001/T12[j];
       myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n3\n";
-      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
 
       //      cout<<Z[j]<<"\t is at number "<<j<<endl;
     }
@@ -115,7 +115,7 @@ void mo03_reactions(){
       myfile<<el_symbol[at_num]<<at_mass<<endl;
       myfile<<"4"<<endl;
       myfile<<"n"<<endl;
-      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<endl;
       myfile<<"electron"<<endl;
       myfile<<"anti-neutrino_e"<<endl;
       Double_t rate = log(2) * P1[j]/T12[j];
@@ -128,7 +128,7 @@ void mo03_reactions(){
       Double_t at_mass_dau = at_mass-1;
       Double_t rate = log(2)*0.0000000001/T12[j];
       myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n4 \nn \n";
-      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
     }
 
 
@@ -144,7 +144,7 @@ void mo03_reactions(){
       myfile<<"5"<<endl;
       myfile<<"n"<<endl;
       myfile<<"n"<<endl;
-      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<endl;
       myfile<<"electron"<<endl;
       myfile<<"anti-neutrino_e"<<endl;
       Double_t rate = log(2) * P2[j]/T12[j];
@@ -157,7 +157,7 @@ void mo03_reactions(){
       Double_t at_mass_dau = at_mass-2;
       Double_t rate = log(2)*0.0000000001/T12[j];
       myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n5 \nn \nn \n";
-      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
     }
 
 
@@ -174,7 +174,7 @@ void mo03_reactions(){
       myfile<<"n"<<endl;
       myfile<<"n"<<endl;
       myfile<<"n"<<endl;
-      myfile<<el_symbol[at_num_dau]<<at_mass<<endl;
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<endl;
       myfile<<"electron"<<endl;
       myfile<<"anti-neutrino_e"<<endl;
       Double_t rate = log(2) * P3[j]/T12[j];
@@ -187,7 +187,7 @@ void mo03_reactions(){
       Double_t at_mass_dau = at_mass-3;
       Double_t rate = log(2)*0.0000000001/T12[j];
       myfile<<"single_rate \nmo03_cmu \n1 \n"<<el_symbol[at_num]<<at_mass<<"\n6 \nn \nn \nn\n";
-      myfile<<el_symbol[at_num_dau]<<at_mass<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
+      myfile<<el_symbol[at_num_dau]<<at_mass_dau<<"\nelectron \nanti-neutrino_e\n"<<rate<<"\n\n";
     }
 
   }
